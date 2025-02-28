@@ -1,15 +1,16 @@
 #ifndef TRAFFIC_SIMULATION_H
 #define TRAFFIC_SIMULATION_H
 
-#include <sdl/sdl.h>
+#include <SDL2/SDL.h>
 #include <stdbool.h>
 
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
 #define LANE_WIDTH 80
-#define MAX_VEHICLES 100
+#define MAX_VEHICLES 100lshort
 #define INTERSECTION_X (WINDOW_WIDTH / 2)
 #define INTERSECTION_Y (WINDOW_HEIGHT / 2)
+#define MAX_QUEUE_SIZE 50  // Optional: Define max queue size
 
 typedef enum {
     DIRECTION_NORTH,
@@ -59,7 +60,7 @@ typedef struct {
     bool active;
     float turnAngle;  
     bool isInRightLane;
-    bool turnProgress;
+    float turnProgress;  // Changed from bool to float
 } Vehicle;
 
 typedef struct {
@@ -103,7 +104,8 @@ void renderQueues(SDL_Renderer* renderer);
 // Queue functions
 void initQueue(Queue* q);
 void enqueue(Queue* q, Vehicle vehicle);
-Vehicle dequeue(Queue* q);
+Vehicle* dequeue(Queue* q);  // Changed return type to pointer
 int isQueueEmpty(Queue* q);
+void freeQueue(Queue* q);  // Added function for queue cleanup
 
 #endif
